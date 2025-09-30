@@ -1,22 +1,23 @@
 import { Button } from "./ui/button";
 import LiquidEther from "./ui/LiquidEther";
+import TextType from "./ui/TextType";
 
 const HeroSection = () => {
   return (
     <section id="home" className="relative min-h-screen pb-20 px-6 overflow-hidden">
       {/* LiquidEther animated background */}
-      <div className="absolute inset-0">
+      <div className="absolute inset-0 z-0">
         <LiquidEther
           colors={['#60FF67', '#39FF14', '#00FF41']}
           mouseForce={80}
-          cursorSize={200}
+          cursorSize={100}
           isViscous={true}
           viscous={35}
           iterationsViscous={32}
           iterationsPoisson={32}
           resolution={0.5}
           isBounce={false}
-          autoDemo={true}
+          autoDemo={false}
           autoSpeed={0.4}
           autoIntensity={1.8}
           takeoverDuration={0.3}
@@ -28,48 +29,95 @@ const HeroSection = () => {
         />
       </div>
       
-      <div className="container mx-auto max-w-7xl px-8">
-        <div className="flex items-start justify-between pt-24">
-          {/* Left side - Hero text and image */}
-          <div className="flex-1 max-w-2xl">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-white mb-12">
-              DESIGNING EXPERIENCES<br />
-              THAT CONNECT, INSPIRE,<br />
-              AND CONVERT
+      <div className="relative z-10 container mx-auto max-w-7xl px-8 pointer-events-none">
+        <div className="flex items-start justify-center pt-32">
+          
+          {/* Left side - Hero text + image + description+button beside image */}
+          <div className="flex-1 max-w-5xl">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-light leading-tight text-white mb-12 uppercase">
+              <div>
+                <TextType 
+                  text={["CRAFTING DIGITAL PRODUCTS"]}
+                  typingSpeed={75}
+                  pauseDuration={1500}
+                  showCursor={false}
+                  loop={false}
+                />
+              </div>
+              <div className="my-4">
+                <TextType 
+                  text={["WITH CODE, CREATIVITY,"]}
+                  typingSpeed={75}
+                  initialDelay={2000}
+                  pauseDuration={1500}
+                  showCursor={false}
+                  loop={false}
+                />
+              </div>
+              <div>
+                <TextType 
+                  text={["AND PURPOSE."]}
+                  typingSpeed={75}
+                  initialDelay={4000}
+                  pauseDuration={1500}
+                  showCursor={true}
+                  cursorCharacter="|"
+                  loop={false}
+                />
+              </div>
             </h1>
-            
-            <div className="w-80 h-48">
-              <img 
-                src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=400&h=300&fit=crop" 
-                alt="Team collaboration - people working together on creative projects"
-                className="rounded-lg w-full h-full object-cover shadow-lg"
-              />
+
+            {/* Image + sentence+button side by side */}
+            <div className="flex items-start gap-80">
+              {/* Image */}
+              <div className="w-96 h-64 flex-shrink-0">
+                <img 
+                  src="image1.jpg" 
+                  alt="Team collaboration - people working together on creative projects"
+                  className="rounded-lg w-full h-full object-cover shadow-lg"
+                />
+              </div>
+
+             {/* Sentence + button */}
+                <div className="pt-24">
+                  <div className="flex items-start gap-4 mb-6">
+                    <div className="text-white text-xl font-light mt-1">+</div>
+                    <p className="text-gray-300 text-sm leading-relaxed whitespace-pre max-w-xl">
+                      Turning ambitious ideas into meaningful digital products<br/>
+                      and brand identities that endure.
+                    </p>
+                  </div>
+
+                  <Button 
+                    variant="neon" 
+                    className="rounded-full px-6 py-2 font-medium text-sm text-black bg-accent hover:bg-accent/90 transition-all duration-300 pointer-events-auto"
+                  >
+                    CONTACT US
+                  </Button>
+                </div>
             </div>
           </div>
 
-          {/* Right side - Services list and CTA positioned vertically */}
-          <div className="w-80 flex flex-col items-start pt-20">
-            <div className="mb-12">
-              <ul className="space-y-2 text-sm font-normal text-white">
-                <li className="hover:text-accent transition-colors cursor-pointer">WEBFLOW DEVELOPMENT</li>
-                <li className="hover:text-accent transition-colors cursor-pointer">BRAND IDENTITY DESIGN</li>
-                <li className="hover:text-accent transition-colors cursor-pointer">CONTENT STRATEGY</li>
-                <li className="hover:text-accent transition-colors cursor-pointer">PRODUCT DESIGN</li>
-              </ul>
-            </div>
+          {/* Right side - Services list */}
+<div className="w-80 flex flex-col items-start pt-20 pr-16">
+  <ul className="text-sm font-normal text-white pointer-events-auto uppercase leading-relaxed">
+    <li className="hover:text-accent transition-colors cursor-pointer whitespace-nowrap">
+      DESIGNING CLEAN, MODERN WEBSITES
+    </li>
+    <li className="hover:text-accent transition-colors cursor-pointer whitespace-nowrap">
+      BUILDING FAST & INTERACTIVE APPS
+    </li>
+    <li className="hover:text-accent transition-colors cursor-pointer whitespace-nowrap">
+      CRAFTING SEAMLESS USER EXPERIENCES
+    </li>
+    <li className="hover:text-accent transition-colors cursor-pointer whitespace-nowrap">
+      BRINGING IDEAS TO LIFE WITH CODE
+    </li>
+  </ul>
+</div>
 
-            {/* Plus icon and description */}
-            <div className="flex items-start gap-4 mb-8">
-              <div className="text-white text-xl font-light mt-1">+</div>
-              <p className="text-gray-300 text-sm leading-relaxed max-w-xs">
-                Turning ambitious ideas into meaningful digital products and brand identities that endure.
-              </p>
-            </div>
 
-            <Button variant="neon" className="rounded-full px-6 py-2 font-medium text-sm text-black bg-accent hover:bg-accent/90 transition-all duration-300">
-              CONTACT US
-            </Button>
-          </div>
+
         </div>
       </div>
     </section>
