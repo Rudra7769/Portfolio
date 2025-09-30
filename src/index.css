@@ -1,0 +1,84 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    --background: 0 0% 0%;
+    --foreground: 0 0% 100%;
+
+    --card: 0 0% 5%;
+    --card-foreground: 0 0% 100%;
+
+    --popover: 0 0% 5%;
+    --popover-foreground: 0 0% 100%;
+
+    --primary: 122 100% 69%;
+    --primary-foreground: 0 0% 0%;
+
+    --secondary: 0 0% 59%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 59%;
+
+    --accent: 122 100% 69%;
+    --accent-foreground: 0 0% 0%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: 122 100% 69%;
+
+    --radius: 0.5rem;
+
+    /* Custom design tokens */
+    --neon-green: 122 100% 69%;
+    --dark-gray: 0 0% 59%;
+    --light-gray: 240 6% 90%;
+    --medium-gray: 300 1% 50%;
+    --off-white: 0 0% 96%;
+
+    /* Gradients */
+    --gradient-hero: radial-gradient(circle at top right, hsl(122 100% 20% / 0.3), transparent 60%);
+    --gradient-glow: radial-gradient(circle, hsl(122 100% 69% / 0.2), transparent 70%);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .gradient-text {
+    @apply bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent;
+  }
+
+  .hover-scale {
+    @apply transition-transform duration-300 hover:scale-105;
+  }
+
+  .hover-glow {
+    @apply transition-all duration-300 hover:shadow-[0_0_30px_rgba(96,255,103,0.3)];
+  }
+}
