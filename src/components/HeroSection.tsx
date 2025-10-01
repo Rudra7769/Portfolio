@@ -1,6 +1,7 @@
 import { Button } from "./ui/button";
 import LiquidEther from "./ui/LiquidEther";
 import TextType from "./ui/TextType";
+import { Mail } from "lucide-react"; // Add this import
 
 const HeroSection = () => {
   return (
@@ -83,15 +84,18 @@ const HeroSection = () => {
                   <div className="flex items-start gap-4 mb-6">
                     <div className="text-white text-xl font-light mt-1">+</div>
                     <p className="text-gray-300 text-sm leading-relaxed whitespace-pre max-w-xl">
-                      Turning ambitious ideas into meaningful digital products<br/>
-                      and brand identities that endure.
+                      Passionate about building digital products that are simple, creative, and impactful.<br/>
+                      Bringing imagination to life through design and development.
                     </p>
                   </div>
 
                   <Button 
                     variant="neon" 
-                    className="rounded-full px-6 py-2 font-medium text-sm text-black bg-accent hover:bg-accent/90 transition-all duration-300 pointer-events-auto"
+                    className="rounded-full px-3 py-1.5 font-medium text-sm text-black bg-white border border-green-500 hover:bg-gray-100 transition-all duration-300 pointer-events-auto flex items-center gap-1"
                   >
+                    <span className="bg-green-500 rounded-full flex items-center justify-center w-7 h-7">
+                      <span className="text-white font-bold text-[12px]">&gt;</span>
+                    </span>
                     CONTACT US
                   </Button>
                 </div>
