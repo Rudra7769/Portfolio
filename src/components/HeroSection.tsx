@@ -18,11 +18,11 @@ const HeroSection = () => {
           iterationsPoisson={32}
           resolution={0.5}
           isBounce={false}
-          autoDemo={false}
-          autoSpeed={0.4}
-          autoIntensity={1.8}
+          autoDemo={true}                // enable automatic wave animation
+          autoSpeed={0.5}                // how fast the auto animation moves
+          autoIntensity={1.6}            // strength of the auto waves
           takeoverDuration={0.3}
-          autoResumeDelay={1500}
+          autoResumeDelay={1000}         // delay before auto demo resumes after interaction
           autoRampDuration={0.6}
           BFECC={true}
           dt={0.016}
@@ -89,15 +89,20 @@ const HeroSection = () => {
                     </p>
                   </div>
 
-                  <Button 
-                    variant="neon" 
-                    className="rounded-full px-3 py-1.5 font-medium text-sm text-black bg-white border border-green-500 hover:bg-gray-100 transition-all duration-300 pointer-events-auto flex items-center gap-1"
-                  >
-                    <span className="bg-green-500 rounded-full flex items-center justify-center w-7 h-7">
-                      <span className="text-white font-bold text-[12px]">&gt;</span>
-                    </span>
-                    CONTACT US
-                  </Button>
+                  <div className="flex items-start gap-80">
+                    <div className="mt-6">
+                      <button
+                        type="button"
+                        aria-label="Contact us"
+                        className="inline-flex items-center rounded-full bg-white border border-green-500 text-black font-medium px-4 py-1.5 hover:bg-gray-100 transition-all duration-200 pointer-events-auto"
+                      >
+                        <span className="bg-green-500 rounded-full w-8 h-8 flex items-center justify-center -ml-1 mr-3 shadow-sm">
+                          <span className="text-white font-bold text-base leading-none">&gt;</span>
+                        </span>
+                        <span className="uppercase text-sm tracking-wide">Contact Me</span>
+                      </button>
+                    </div>
+                  </div>
                 </div>
             </div>
           </div>
