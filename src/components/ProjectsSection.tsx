@@ -1,82 +1,83 @@
-import { ArrowUpRight, Sparkles } from "lucide-react";
-import { Button } from "./ui/button";
+import { Sparkles } from "lucide-react";
+import CardSwap, { Card } from './ui/CardSwap';
 
 const projects = [
-  {
-    id: "001",
-    title: "AGENCY WEBSITE DESIGN",
-    year: "2025",
-    image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800",
-  },
-  {
-    id: "002",
-    title: "MOBILE APP DESIGN",
-    year: "2025",
-    image: "https://images.unsplash.com/photo-1618005198919-d3d4b5a92ead?q=80&w=800",
-  },
-  {
-    id: "003",
-    title: "DASHBOARD DESIGN",
-    year: "2025",
-    image: "https://images.unsplash.com/photo-1618556450994-a6a128ef0d9d?q=80&w=800",
-  },
-  {
-    id: "004",
-    title: "SAAS WEBSITE DESIGN",
-    year: "2025",
-    image: "https://images.unsplash.com/photo-1618556450991-2f1af64e8191?q=80&w=800",
-  },
+	{
+		id: "001",
+		title: "AGENCY WEBSITE DESIGN",
+		year: "2025",
+		image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800",
+		description: "Modern agency website with dynamic interactions"
+	},
+	{
+		id: "002",
+		title: "MOBILE APP DESIGN",
+		year: "2025",
+		image: "https://images.unsplash.com/photo-1618005198919-d3d4b5a92ead?q=80&w=800",
+		description: "Intuitive mobile application interface"
+	},
+	{
+		id: "003",
+		title: "DASHBOARD DESIGN",
+		year: "2025",
+		image: "https://images.unsplash.com/photo-1618556450994-a6a128ef0d9d?q=80&w=800",
+		description: "Data visualization dashboard"
+	},
 ];
 
 const ProjectsSection = () => {
-  return (
-    <section id="work" className="py-20 px-6">
-      <div className="container mx-auto">
-        <div className="flex items-center gap-3 mb-12 justify-center">
-          <Sparkles className="w-5 h-5 text-accent" />
-          <span className="text-sm text-muted-foreground">PROJECT</span>
-        </div>
+	return (
+		<section id="work" className="py-20 px-6 relative min-h-[800px] overflow-hidden">
+			<div className="container mx-auto relative z-10">
+				<div className="grid grid-cols-2 gap-8">
+					{/* Left side - Text */}
+					<div className="flex flex-col justify-center">
+						<div className="flex items-center gap-3 mb-12">
+							<Sparkles className="w-5 h-5 text-accent" />
+							<span className="text-sm text-muted-foreground">PROJECTS</span>
+						</div>
 
-        <h2 className="text-4xl md:text-5xl font-bold text-center mb-6">Recent Projects</h2>
-        <p className="text-center text-muted-foreground mb-16 max-w-2xl mx-auto">
-          Our work is more than design - it's the result of deep thinking, fresh ideas, and fearless execution across disciplines.
-        </p>
+						<h2 className="text-4xl md:text-5xl font-bold mb-6">Recent Projects</h2>
+						<p className="text-muted-foreground mb-16 max-w-xl">
+							My work is more than design - it's the result of deep thinking, fresh ideas, and fearless execution across disciplines.
+						</p>
+					</div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
-          {projects.map((project) => (
-            <div key={project.id} className="group relative overflow-hidden rounded-lg bg-card border border-border hover-glow">
-              <div className="aspect-[4/3] overflow-hidden">
-                <img 
-                  src={project.image}
-                  alt={project.title}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-              </div>
-              <div className="p-6 flex items-center justify-between">
-                <div>
-                  <div className="text-xs text-muted-foreground mb-1">{project.id}</div>
-                  <div className="font-medium">{project.title}</div>
-                </div>
-                <div className="flex items-center gap-4">
-                  <span className="text-xs text-muted-foreground">// {project.year}</span>
-                  <button className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center group-hover:bg-accent group-hover:text-accent-foreground transition-colors">
-                    VIEW
-                  </button>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div className="text-center">
-          <Button variant="neon" size="lg" className="rounded-full">
-            <span>VIEW ALL PROJECT</span>
-            <ArrowUpRight className="w-4 h-4" />
-          </Button>
-        </div>
-      </div>
-    </section>
-  );
+					{/* Right side - Cards */}
+					<div style={{ height: '600px', position: 'relative', zIndex: 20 }}>
+						<CardSwap
+							cardDistance={60}
+							verticalDistance={70}
+							delay={5000}         // Increased from 3000 to 5000 for slower rotation
+							pauseOnHover={true}
+							width={400}
+							height={500}
+							easing="linear"
+						>
+							{projects.map((project) => (
+								<Card key={project.id} className="p-6 text-white overflow-hidden group">
+									<div className="h-full flex flex-col">
+										<div className="aspect-[4/3] overflow-hidden rounded-lg mb-4">
+											<img
+												src={project.image}
+												alt={project.title}
+												className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+											/>
+										</div>
+										<h3 className="text-xl font-bold mb-2">{project.title}</h3>
+										<p className="text-gray-300">{project.description}</p>
+										<div className="mt-auto">
+											<span className="text-sm text-gray-400">// {project.year}</span>
+										</div>
+									</div>
+								</Card>
+							))}
+						</CardSwap>
+					</div>
+				</div>
+			</div>
+		</section>
+	);
 };
 
 export default ProjectsSection;
