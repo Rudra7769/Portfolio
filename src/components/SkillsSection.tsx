@@ -1,5 +1,5 @@
 import { Sparkles } from "lucide-react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Matter from "matter-js";
 
 // 🧠 Skill icons (you can add or remove as you like)
@@ -25,6 +25,8 @@ const allIcons = [
 // 🎨 Main Component
 const SkillsSection = () => {
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const engineRef = useRef<Matter.Engine | null>(null);
 
   useEffect(() => {
     const { Engine, Render, Runner, World, Bodies, Mouse, MouseConstraint } = Matter;
@@ -38,6 +40,7 @@ const SkillsSection = () => {
     // 🧩 Setup Matter.js Engine
     const engine = Engine.create();
     engine.world.gravity.y = 0.7;
+    engineRef.current = engine;
 
     // 🖼️ Create Renderer
     const render = Render.create({
@@ -57,27 +60,6 @@ const SkillsSection = () => {
     const rightWall = Bodies.rectangle(width + 25, height / 2, 50, height, { isStatic: true, render: { visible: false } });
     const ceiling = Bodies.rectangle(width / 2, -25, width, 50, { isStatic: true, render: { visible: false } });
     World.add(engine.world, [floor, leftWall, rightWall, ceiling]);
-
-    // 🪄 Add icons as falling objects
-    const iconBodies = allIcons.map((icon, i) =>
-  Bodies.circle(
-    60 + (i * (width - 120)) / 13, // evenly space all 14 icons across width
-    50, // same Y position so they all start together
-    30,
-    {
-      restitution: 0.9,
-      render: {
-        sprite: {
-          texture: icon,
-          xScale: 0.6,
-          yScale: 0.6,
-        },
-      },
-    }
-  )
-);
-
-    World.add(engine.world, iconBodies);
 
     // 🖱️ Add Mouse Interaction
     const mouse = Mouse.create(render.canvas);
@@ -102,6 +84,38 @@ const SkillsSection = () => {
     };
   }, []);
 
+  const startAnimation = () => {
+    if (isAnimating || !engineRef.current) return;
+    setIsAnimating(true);
+
+    const { World, Bodies } = Matter;
+    const container = containerRef.current;
+    if (!container) return;
+
+    const width = container.offsetWidth;
+
+    // 🪄 Add icons as falling objects
+    const iconBodies = allIcons.map((icon, i) =>
+      Bodies.circle(
+        60 + (i * (width - 120)) / 13, // evenly space all 14 icons across width
+        50, // same Y position so they all start together
+        30,
+        {
+          restitution: 0.9,
+          render: {
+            sprite: {
+              texture: icon,
+              xScale: 0.6,
+              yScale: 0.6,
+            },
+          },
+        }
+      )
+    );
+
+    World.add(engineRef.current.world, iconBodies);
+  };
+
   return (
     <section id="skills" className="py-20 px-6 relative z-0 overflow-hidden">
       <div className="container mx-auto max-w-7xl text-center">
@@ -124,7 +138,8 @@ const SkillsSection = () => {
         {/* 🧩 Falling Icons Container */}
         <div
           ref={containerRef}
-          className="relative w-full h-[400px] rounded-xl border border-green-500/30 bg-black/40 backdrop-blur-sm"
+          onClick={startAnimation}
+          className="relative w-full h-[400px] rounded-xl border border-green-500/30 bg-black/40 backdrop-blur-sm cursor-pointer"
         />
       </div>
     </section>
