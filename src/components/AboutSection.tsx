@@ -1,4 +1,6 @@
 import { Sparkles } from "lucide-react";
+import SpotlightCard from "./SpotlightCard";
+import Squares from "./Squares";
 
 const stats = [
 	{
@@ -27,9 +29,19 @@ const stats = [
 ];
 
 const AboutSection = () => {
-	return (
-		<section id="about" className="py-20 px-6 bg-card/30">
-			<div className="container mx-auto">
+		return (
+			<section id="about" className="relative py-20 px-6 bg-card/30 overflow-hidden">
+				{/* Animated Background */}
+				<div className="absolute inset-0 opacity-60">
+					<Squares 
+						speed={0.5} 
+						squareSize={40}
+						direction='diagonal'
+						borderColor='rgba(255, 255, 255, 0.3)'
+						hoverFillColor='rgba(96, 255, 103, 0.3)'
+					/>
+				</div>
+				<div className="container mx-auto relative z-10">
 				<div className="flex items-center gap-3 mb-12 justify-center">
 					<Sparkles className="w-5 h-5 text-accent" />
 					<span className="text-sm text-muted-foreground">ABOUT ME</span>
@@ -46,17 +58,21 @@ const AboutSection = () => {
 
 				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
 					{stats.map((stat, index) => (
-						<div key={index} className="space-y-4 group">
-							<div className="text-sm text-muted-foreground">
+						<SpotlightCard 
+							key={index} 
+							className="group hover:border-white/40 hover:bg-white/[0.08] hover:shadow-2xl hover:shadow-accent/40 hover:backdrop-blur-2xl transition-all duration-300" 
+							spotlightColor="rgba(34, 197, 94, 0.4)"
+						>
+							<div className="text-sm text-muted-foreground mb-3">
 								{stat.label}
 							</div>
-							<div className="text-5xl font-bold group-hover:text-accent transition-colors">
+							<div className="text-5xl font-bold mb-4 group-hover:text-accent transition-colors">
 								{stat.number}
 							</div>
 							<p className="text-sm text-muted-foreground leading-relaxed">
 								{stat.description}
 							</p>
-						</div>
+						</SpotlightCard>
 					))}
 				</div>
 			</div>
