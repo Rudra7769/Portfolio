@@ -1,5 +1,6 @@
 import { Sparkles } from "lucide-react";
 import CardSwap, { Card } from './ui/CardSwap';
+import Particles from './Particles';
 
 const projects = [
 	{
@@ -28,6 +29,20 @@ const projects = [
 const ProjectsSection = () => {
 	return (
 		<section id="work" className="py-20 px-6 relative min-h-[800px] overflow-hidden">
+			{/* Particles Background for entire section */}
+			<div className="absolute inset-0 z-0">
+				<Particles
+					particleColors={['#ffffff', '#ffffff']} // White particles
+					particleCount={200}
+					particleSpread={10}
+					speed={0.1}
+					particleBaseSize={100}
+					moveParticlesOnHover={false}
+					alphaParticles={false}
+					disableRotation={false}
+				/>
+			</div>
+
 			<div className="container mx-auto relative z-10">
 				<div className="grid grid-cols-2 gap-8">
 					{/* Left side - Text */}
