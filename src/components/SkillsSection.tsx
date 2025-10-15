@@ -29,12 +29,12 @@ const SkillsSection = () => {
           </span>
         </div>
 
-        <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">
+        <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
           Technical Expertise
         </h2>
 
         <p className="text-gray-400 max-w-2xl mx-auto mb-12">
-          I'm currently looking to join a cross-functional team that values improving people's lives through accessible design
+          A builder at heart, I thrive on transforming concepts into fast, functional, and visually striking web applications that push boundaries.
         </p>
         
         {/* Skills Globe Visualization */}
