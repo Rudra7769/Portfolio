@@ -1,189 +1,152 @@
-import { motion, useInView } from "framer-motion";
-import { Github, ExternalLink, Sparkles } from "lucide-react";
-import { useRef } from "react";
+import { motion, useInView, AnimatePresence, Variants } from "framer-motion";
+import { ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
+import { useRef, useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 const projectMockup1 = "/placeholder.svg";
 const projectMockup2 = "/placeholder.svg";
 const projectMockup3 = "/placeholder.svg";
+const projectMockup4 = "/placeholder.svg";
 
 interface Project {
   id: number;
   title: string;
   description: string;
   image: string;
-  techStack: string[];
-  githubUrl: string;
-  liveUrl: string;
+  category: string;
+  client: string;
+  year: string;
+  services: string[];
+  liveUrl?: string;
 }
 
 const projects: Project[] = [
   {
     id: 1,
-    title: "AI Dashboard Platform",
-    description: "A comprehensive analytics dashboard with real-time data visualization and AI-powered insights for business intelligence.",
+    title: "Lirante",
+    description: "A comprehensive e-commerce platform with modern design and seamless user experience",
     image: projectMockup1,
-    techStack: ["React", "TypeScript", "Node.js", "MongoDB"],
-    githubUrl: "https://github.com",
+    category: "E-Commerce Platform",
+    client: "Lirante Corp",
+    year: "2024",
+    services: ["UI/UX Design", "Frontend Development", "Brand Identity"],
     liveUrl: "https://example.com",
   },
   {
     id: 2,
-    title: "E-Commerce Marketplace",
-    description: "Full-stack e-commerce platform with payment integration, inventory management, and advanced search capabilities.",
+    title: "Portfolio Website",
+    description: "Modern portfolio design showcasing creative projects with interactive elements",
     image: projectMockup2,
-    techStack: ["Next.js", "TailwindCSS", "Stripe", "PostgreSQL"],
-    githubUrl: "https://github.com",
+    category: "Portfolio Design",
+    client: "Creative Studio",
+    year: "2024",
+    services: ["Web Design", "Development", "Animation"],
     liveUrl: "https://example.com",
   },
   {
     id: 3,
-    title: "Smart Task Manager",
-    description: "AI-powered task management app with natural language processing, smart scheduling, and team collaboration features.",
+    title: "Mobile App Design",
+    description: "Innovative mobile application with focus on user experience and modern aesthetics",
     image: projectMockup3,
-    techStack: ["React", "Firebase", "OpenAI", "Material-UI"],
-    githubUrl: "https://github.com",
+    category: "Mobile Design",
+    client: "Tech Startup",
+    year: "2023",
+    services: ["Mobile Design", "Prototyping", "User Testing"],
     liveUrl: "https://example.com",
   },
 ];
 
-const ProjectCard = ({ project, index }: { project: Project; index: number }) => {
-  const cardRef = useRef(null);
-  const isInView = useInView(cardRef, { once: true, margin: "-100px" });
-
+const ProjectCard = ({ project, isActive }: { project: Project; isActive: boolean }) => {
   return (
     <motion.div
-      ref={cardRef}
-      initial={{ opacity: 0, y: 50, scale: 0.9 }}
-      animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
-      transition={{
-        duration: 0.6,
-        delay: index * 0.2,
-        ease: [0.25, 0.46, 0.45, 0.94],
+      initial={{ opacity: 0, scale: 0.98 }}
+      animate={{ 
+        opacity: isActive ? 1 : 0.85, 
+        scale: isActive ? 1 : 0.98 
       }}
-      whileHover={{ y: -10, scale: 1.02 }}
-      className="group relative"
+      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+      className="relative flex-shrink-0 w-full max-w-lg mx-4 group will-change-transform"
     >
-      {/* Glow effect on hover */}
-      <div className="absolute -inset-0.5 rounded-xl bg-gradient-to-r from-primary/50 via-primary/30 to-transparent opacity-0 blur-lg transition-all duration-500 group-hover:opacity-100" />
-      
-      {/* Card */}
-      <div className="relative h-full overflow-hidden rounded-xl border border-border/50 bg-card/30 backdrop-blur-xl transition-all duration-500 group-hover:border-primary/50 group-hover:shadow-cyber-lg">
+      {/* Main Card */}
+      <div className="relative bg-card/80 backdrop-blur-sm border border-border/50 rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500">
         {/* Project Image */}
-        <div className="relative h-48 overflow-hidden">
+        <div className="relative h-80 overflow-hidden">
           <motion.img
             src={project.image}
             alt={project.title}
-            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+            className="h-full w-full object-cover"
             loading="lazy"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent" />
-        </div>
-
-        {/* Content */}
-        <div className="p-6 space-y-4">
-          <h3 className="text-2xl font-bold text-foreground transition-colors duration-300 group-hover:text-primary">
-            {project.title}
-          </h3>
           
-          <p className="text-muted-foreground leading-relaxed">
-            {project.description}
-          </p>
-
-          {/* Tech Stack */}
-          <div className="flex flex-wrap gap-2">
-            {project.techStack.map((tech) => (
-              <span
-                key={tech}
-                className="rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-medium text-primary transition-all duration-300 hover:bg-primary/20 hover:shadow-cyber"
-              >
-                {tech}
-              </span>
-            ))}
+          {/* Overlay Gradient */}
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
+          
+          {/* Project Title Overlay (default state) */}
+          <div className="absolute bottom-6 left-6 right-6 transition-opacity duration-300 group-hover:opacity-0">
+            <h3 className="text-3xl font-bold text-white mb-2">
+              {project.title}
+            </h3>
+            <p className="text-white/90 text-sm">
+              {project.category}
+            </p>
           </div>
 
-          {/* Action Buttons */}
-          <div className="flex gap-3 pt-2">
-            <Button
-              variant="outline"
-              size="sm"
-              className="flex-1 border-primary/50 bg-transparent text-primary transition-all duration-300 hover:bg-primary hover:text-primary-foreground hover:shadow-cyber"
-              asChild
-            >
-              <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
-                <Github className="mr-2 h-4 w-4" />
-                GitHub
-              </a>
-            </Button>
-            <Button
-              size="sm"
-              className="flex-1 bg-primary text-primary-foreground shadow-cyber transition-all duration-300 hover:shadow-cyber-lg"
-              asChild
-            >
-              <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-                <ExternalLink className="mr-2 h-4 w-4" />
-                Live Demo
-              </a>
-            </Button>
+          {/* Hover Description Overlay */}
+          <div className="pointer-events-none absolute left-4 right-4 bottom-6 rounded-2xl bg-background/30 backdrop-blur-xl border border-border/30 p-5 md:p-7 opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
+            <h3 className="text-3xl md:text-4xl font-extrabold text-foreground mb-3">
+              {project.title}
+            </h3>
+            <p className="text-sm md:text-base text-muted-foreground leading-relaxed">
+              {project.description}
+            </p>
+          </div>
+          
+          {/* Navigation Arrow */}
+          <div className="absolute top-4 right-4 z-20">
+            <div className="w-12 h-12 bg-muted/30 border border-border/50 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 cursor-pointer hover:scale-110 group-hover:bg-primary group-hover:border-primary">
+              <ChevronRight className="w-6 h-6 text-muted-foreground group-hover:text-primary-foreground transition-colors duration-300" />
+            </div>
           </div>
         </div>
-
-        {/* Hover overlay effect */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileHover={{ opacity: 1 }}
-          className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent pointer-events-none"
-        />
       </div>
     </motion.div>
   );
 };
 
-const AnimatedGrid = () => {
-  return (
-    <div className="absolute inset-0 overflow-hidden opacity-20">
-      <div
-        className="absolute inset-0 animate-grid-flow"
-        style={{
-          backgroundImage: `
-            linear-gradient(to right, hsl(var(--primary)) 1px, transparent 1px),
-            linear-gradient(to bottom, hsl(var(--primary)) 1px, transparent 1px)
-          `,
-          backgroundSize: "50px 50px",
-        }}
-      />
-    </div>
-  );
-};
-
-const FloatingParticles = () => {
-  return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {[...Array(15)].map((_, i) => (
-        <motion.div
-          key={i}
-          className="absolute h-1 w-1 rounded-full bg-primary/30"
-          style={{
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-          }}
-          animate={{
-            y: [0, -30, 0],
-            opacity: [0.2, 0.8, 0.2],
-          }}
-          transition={{
-            duration: 3 + Math.random() * 3,
-            repeat: Infinity,
-            delay: Math.random() * 2,
-          }}
-        />
-      ))}
-    </div>
-  );
-};
 
 const ProjectsSection = () => {
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [direction, setDirection] = useState<1 | -1>(1);
+  const [isHovered, setIsHovered] = useState(false);
+
+  const nextProject = () => {
+    setDirection(1);
+    setCurrentIndex((prev) => (prev + 1) % projects.length);
+  };
+
+  const prevProject = () => {
+    setDirection(-1);
+    setCurrentIndex((prev) => (prev - 1 + projects.length) % projects.length);
+  };
+
+  // Auto-scroll functionality
+  useEffect(() => {
+    if (!isHovered) {
+      const interval = setInterval(() => {
+        setDirection(1);
+        setCurrentIndex((prev) => (prev + 1) % projects.length);
+      }, 2500); // Faster: change slide every 2.5s
+
+      return () => clearInterval(interval);
+    }
+  }, [isHovered, projects.length]);
+
+  const slideVariants: Variants = {
+    enter: (dir: number) => ({ x: dir > 0 ? 40 : -40, opacity: 0, scale: 0.98 }),
+    center: { x: 0, opacity: 1, scale: 1, transition: { type: "tween", ease: [0.22, 1, 0.36, 1], duration: 0.35 } },
+    exit: (dir: number) => ({ x: dir > 0 ? -40 : 40, opacity: 0, scale: 0.98, transition: { duration: 0.22, ease: "easeInOut" } }),
+  };
 
   return (
     <section
@@ -191,7 +154,6 @@ const ProjectsSection = () => {
       ref={sectionRef}
       className="relative min-h-screen overflow-hidden bg-background py-20 px-4 sm:px-6 lg:px-8"
     >
-
       {/* Content */}
       <div className="relative z-10 mx-auto max-w-7xl">
         {/* Section Header */}
@@ -199,7 +161,7 @@ const ProjectsSection = () => {
           initial={{ opacity: 0, y: -20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="mb-16 text-center"
+          className="mb-16 text-left"
         >
           <div className="mb-4 inline-flex items-center gap-2">
             <Sparkles className="h-4 w-4 text-primary" />
@@ -214,16 +176,70 @@ const ProjectsSection = () => {
             </span>
           </h2>
           
-          <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
+          <p className="max-w-2xl text-lg text-muted-foreground">
             Explore my latest work showcasing cutting-edge technologies and innovative solutions
           </p>
         </motion.div>
 
-        {/* Projects Grid */}
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {projects.map((project, index) => (
-            <ProjectCard key={project.id} project={project} index={index} />
-          ))}
+        {/* Carousel Container */}
+        <div 
+          className="relative"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
+          {/* Navigation Buttons */}
+          <button
+            onClick={prevProject}
+            className="absolute left-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-background/80 backdrop-blur-sm border border-border/50 rounded-full flex items-center justify-center hover:bg-primary hover:border-primary transition-all duration-300 group"
+          >
+            <ChevronLeft className="w-6 h-6 text-foreground group-hover:text-primary-foreground" />
+          </button>
+          
+          <button
+            onClick={nextProject}
+            className="absolute right-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-background/80 backdrop-blur-sm border border-border/50 rounded-full flex items-center justify-center hover:bg-primary hover:border-primary transition-all duration-300 group"
+          >
+            <ChevronRight className="w-6 h-6 text-foreground group-hover:text-primary-foreground" />
+          </button>
+
+          {/* Carousel */}
+          <div className="flex justify-center items-center min-h-[500px]">
+            <AnimatePresence mode="wait" custom={direction}>
+              <motion.div
+                className="flex items-stretch justify-center w-full gap-8"
+                key={currentIndex}
+                variants={slideVariants}
+                custom={direction}
+                initial="enter"
+                animate="center"
+                exit="exit"
+              >
+                <ProjectCard 
+                  project={projects[currentIndex]} 
+                  isActive={true}
+                />
+                <ProjectCard 
+                  project={projects[(currentIndex + 1) % projects.length]} 
+                  isActive={true}
+                />
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          {/* Pagination Dots */}
+          <div className="flex justify-center mt-8 space-x-2">
+            {projects.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentIndex(index)}
+                className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                  index === currentIndex 
+                    ? 'bg-primary scale-125' 
+                    : 'bg-border hover:bg-primary/50'
+                }`}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </section>
