@@ -14,8 +14,8 @@ const CTASection = () => {
               <br />
               INTO REALITY
             </h2>
-            <div className="absolute -top-12 right-1/4 w-24 h-24 rounded-full bg-accent flex items-center justify-center hover-scale cursor-pointer group">
-              <ArrowUpRight className="w-8 h-8 text-accent-foreground group-hover:rotate-45 transition-transform" />
+            <div className="absolute -top-6 -right-16 w-20 h-20 rounded-full bg-green-500 flex items-center justify-center hover:scale-110 cursor-pointer group transition-all duration-300">
+              <ArrowUpRight className="w-6 h-6 text-black group-hover:rotate-45 transition-transform duration-300" />
             </div>
           </div>
         </div>

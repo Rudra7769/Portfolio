@@ -1,10 +1,10 @@
-import { Sparkles, ChevronDown } from "lucide-react";
+import { Sparkles, ChevronDown, Menu, X } from "lucide-react";
 import ShinyText from "./ShinyText";
 import { useEffect, useRef, useState } from "react";
 
 const Navigation = () => {
   const [scrollProgress, setScrollProgress] = useState(0);
-  const [smoothedProgress, setSmoothedProgress] = useState(0);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Refs for measuring exact positions to perfectly overlap during crossfade
   const leftOriginalRef = useRef<HTMLDivElement | null>(null);
@@ -17,7 +17,7 @@ const Navigation = () => {
 
   useEffect(() => {
     const onScroll = () => {
-      const max = 200; // px of scroll for full effect
+      const max = 300; // scroll distance for smooth but responsive effect
       const p = Math.min(window.scrollY / max, 1);
       setScrollProgress(p);
     };
@@ -25,20 +25,6 @@ const Navigation = () => {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
-  // Smooth the scrollProgress to avoid jitter and match perceived speed
-  useEffect(() => {
-    let raf: number;
-    const tick = () => {
-      setSmoothedProgress(prev => {
-        const next = prev + (scrollProgress - prev) * 0.25; // slightly snappier smoothing
-        return Math.abs(next - prev) < 0.0005 ? scrollProgress : next;
-      });
-      raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [scrollProgress]);
 
   // Measure offsets so sticky ovals start exactly over originals (no visible time lapse)
   useEffect(() => {
@@ -63,12 +49,24 @@ const Navigation = () => {
     return () => window.removeEventListener('resize', measure);
   }, []);
 
-  // Compute transforms so sticky starts exactly where originals are, then moves to edge
-  const leftTranslate = leftStart * (1 - smoothedProgress);
-  const rightTranslate = rightStart * (1 - smoothedProgress);
+  // Simple smooth easing that follows scroll perfectly
+  const easeOutQuad = (t: number) => 1 - (1 - t) * (1 - t);
+  const blend = easeOutQuad(scrollProgress);
 
-  // Crossfade blend tied to progress; small ramp to avoid overlap artifacts
-  const blend = Math.min(Math.max((smoothedProgress - 0.02) / 0.18, 0), 1);
+  // Smooth scroll function
+  const handleNavClick = (sectionId: string) => {
+    setIsMobileMenuOpen(false);
+    if (sectionId === 'home') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      const section = document.getElementById(sectionId);
+      if (section) section.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  // Compute transforms so sticky starts exactly where originals are, then moves to edge
+  const leftTranslate = leftStart * (1 - blend);
+  const rightTranslate = rightStart * (1 - blend);
 
   return (
     <>
@@ -83,9 +81,9 @@ const Navigation = () => {
               className="flex items-center gap-4 will-change-[opacity,transform]"
               style={{ opacity: 1 - blend }}
             >
-              <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-white/20 hover:border-white/40 transition-colors duration-300">
+            <div className="w-12 h-12 rounded-full overflow-hidden">
                 <img 
-                  src="/My pfp1.png" 
+                  src="/profile.png" 
                   alt="Profile" 
                   className="w-full h-full object-cover"
                 />
@@ -98,28 +96,52 @@ const Navigation = () => {
 
             {/* Center - Navigation Links */}
             <div className="hidden md:flex items-center space-x-12 bg-white/5 backdrop-blur-md rounded-full px-8 py-3 border border-white/10">
-              <a href="#home" className="text-white transition-colors duration-200 text-sm font-medium hover:text-green-400">
+              <button 
+                onClick={() => handleNavClick('home')}
+                className="text-white transition-colors duration-200 text-sm font-medium hover:text-green-400"
+              >
                 Home
-              </a>
-              <a href="#about" className="text-white transition-colors duration-200 text-sm font-medium hover:text-green-400">
+              </button>
+              <button 
+                onClick={() => handleNavClick('about')}
+                className="text-white transition-colors duration-200 text-sm font-medium hover:text-green-400"
+              >
                 About
-              </a>
-              <a href="#work" className="text-white transition-colors duration-200 text-sm font-medium hover:text-green-400">
-                Work
-              </a>
-              <a href="#pricing" className="text-white transition-colors duration-200 text-sm font-medium hover:text-green-400">
-                Pricing
-              </a>
-              <div className="relative">
-                <button className="flex items-center gap-1 text-white transition-colors duration-200 text-sm font-medium hover:text-green-400">
-                  Pages
-                  <ChevronDown className="w-3 h-3" />
-                </button>
-              </div>
-              <a href="#contact" className="text-white transition-colors duration-200 text-sm font-medium hover:text-green-400">
+              </button>
+              <button 
+                onClick={() => handleNavClick('projects')}
+                className="text-white transition-colors duration-200 text-sm font-medium hover:text-green-400"
+              >
+                Projects
+              </button>
+              <button 
+                onClick={() => handleNavClick('skills')}
+                className="text-white transition-colors duration-200 text-sm font-medium hover:text-green-400"
+              >
+                Skills
+              </button>
+              <button 
+                onClick={() => handleNavClick('experience')}
+                className="text-white transition-colors duration-200 text-sm font-medium hover:text-green-400"
+              >
+                Experience
+              </button>
+              <button 
+                onClick={() => handleNavClick('contact')}
+                className="text-white transition-colors duration-200 text-sm font-medium hover:text-green-400"
+              >
                 Contact
-              </a>
+              </button>
             </div>
+
+            {/* Mobile Menu Button */}
+            <button 
+              className="md:hidden text-white p-2 rounded-lg hover:bg-white/10 transition-colors"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label="Toggle menu"
+            >
+              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
 
             {/* Right side - Download CV Button */}
             <div ref={rightOriginalRef} className="will-change-[opacity,transform]" style={{ opacity: 1 - blend }}>
@@ -129,6 +151,50 @@ const Navigation = () => {
             </div>
           </div>
         </div>
+
+        {/* Mobile Menu */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden mt-4 pb-6">
+            <div className="bg-white/5 backdrop-blur-md rounded-xl mx-6 p-4 border border-white/10 space-y-3">
+              <button 
+                onClick={() => handleNavClick('home')}
+                className="block w-full text-left text-white transition-colors duration-200 text-sm font-medium hover:text-green-400 py-2 px-3 rounded-lg hover:bg-white/10"
+              >
+                Home
+              </button>
+              <button 
+                onClick={() => handleNavClick('about')}
+                className="block w-full text-left text-white transition-colors duration-200 text-sm font-medium hover:text-green-400 py-2 px-3 rounded-lg hover:bg-white/10"
+              >
+                About
+              </button>
+              <button 
+                onClick={() => handleNavClick('projects')}
+                className="block w-full text-left text-white transition-colors duration-200 text-sm font-medium hover:text-green-400 py-2 px-3 rounded-lg hover:bg-white/10"
+              >
+                Projects
+              </button>
+              <button 
+                onClick={() => handleNavClick('skills')}
+                className="block w-full text-left text-white transition-colors duration-200 text-sm font-medium hover:text-green-400 py-2 px-3 rounded-lg hover:bg-white/10"
+              >
+                Skills
+              </button>
+              <button 
+                onClick={() => handleNavClick('experience')}
+                className="block w-full text-left text-white transition-colors duration-200 text-sm font-medium hover:text-green-400 py-2 px-3 rounded-lg hover:bg-white/10"
+              >
+                Experience
+              </button>
+              <button 
+                onClick={() => handleNavClick('contact')}
+                className="block w-full text-left text-white transition-colors duration-200 text-sm font-medium hover:text-green-400 py-2 px-3 rounded-lg hover:bg-white/10"
+              >
+                Contact
+              </button>
+            </div>
+          </div>
+        )}
       </nav>
 
       {/* Sticky Left Oval (appears after scrolling) */}
@@ -137,11 +203,11 @@ const Navigation = () => {
           <div
             ref={leftStickyInnerRef}
             className="flex items-center gap-4 will-change-[transform,opacity]"
-            style={{ transform: `translateX(${leftTranslate}px)`, opacity: blend, pointerEvents: blend > 0.5 ? 'auto' : 'none' }}
+            style={{ transform: `translate3d(${leftTranslate}px, 0, 0)`, opacity: blend, pointerEvents: blend > 0.5 ? 'auto' : 'none' }}
           >
-            <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-white/20 hover:border-white/40 transition-colors duration-300">
+            <div className="w-12 h-12 rounded-full overflow-hidden">
               <img 
-                src="/My pfp1.png" 
+                src="/profile.png" 
                 alt="Profile" 
                 className="w-full h-full object-cover"
               />
@@ -160,7 +226,7 @@ const Navigation = () => {
           <div
             ref={rightStickyInnerRef}
             className="will-change-[transform,opacity]"
-            style={{ transform: `translateX(${rightTranslate}px)`, opacity: blend, pointerEvents: blend > 0.5 ? 'auto' : 'none' }}
+            style={{ transform: `translate3d(${rightTranslate}px, 0, 0)`, opacity: blend, pointerEvents: blend > 0.5 ? 'auto' : 'none' }}
           >
             <a href="/path-to-your-cv.pdf" download className="border border-white/20 px-6 py-2 rounded-full text-base font-medium hover:border-white/40 hover:bg-white/10 transition-all duration-300 text-white">
               <ShinyText text="Download CV" speed={3} />

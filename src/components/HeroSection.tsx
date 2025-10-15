@@ -4,6 +4,13 @@ import TextType from "./ui/TextType";
 import { Mail } from "lucide-react"; // Add this import
 
 const HeroSection = () => {
+  const handleContactClick = () => {
+    const contactSection = document.getElementById('contact');
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <section id="home" className="relative min-h-screen pb-20 px-6 overflow-hidden">
       {/* LiquidEther animated background */}
@@ -93,6 +100,7 @@ const HeroSection = () => {
                     <div className="mt-6">
                       <button
                         type="button"
+                        onClick={handleContactClick}
                         aria-label="Contact us"
                         className="inline-flex items-center rounded-full bg-white border border-green-500 text-black font-medium px-4 py-1.5 hover:bg-gray-100 transition-all duration-200 pointer-events-auto"
                       >
