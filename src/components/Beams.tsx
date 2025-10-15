@@ -4,7 +4,7 @@ import * as THREE from 'three';
 
 import { Canvas, useFrame } from '@react-three/fiber';
 import { PerspectiveCamera } from '@react-three/drei';
-import { degToRad } from 'three/src/math/MathUtils.js';
+import { MathUtils } from 'three';
 
 type UniformValue = THREE.IUniform<unknown> | unknown;
 
@@ -248,7 +248,7 @@ const Beams: FC<BeamsProps> = ({
 
   return (
     <CanvasWrapper>
-      <group rotation={[0, 0, degToRad(rotation)]}>
+      <group rotation={[0, 0, MathUtils.degToRad(rotation)]}>
         <PlaneNoise ref={meshRef} material={beamMaterial} count={beamNumber} width={beamWidth} height={beamHeight} />
         <DirLight color={lightColor} position={[0, 3, 10]} />
       </group>
