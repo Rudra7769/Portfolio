@@ -1,9 +1,12 @@
 import { Button } from "./ui/button";
 import LiquidEther from "./ui/LiquidEther";
 import TextType from "./ui/TextType";
-import { Mail } from "lucide-react"; // Add this import
+import { Mail } from "lucide-react";
+import { useState } from "react";
 
 const HeroSection = () => {
+  const [activeLine, setActiveLine] = useState(0);
+
   const handleContactClick = () => {
     const contactSection = document.getElementById('contact');
     if (contactSection) {
@@ -46,32 +49,36 @@ const HeroSection = () => {
               <div>
                 <TextType 
                   text={["CRAFTING DIGITAL PRODUCTS"]}
-                  typingSpeed={75}
-                  pauseDuration={1500}
-                  showCursor={false}
+                  typingSpeed={50}
+                  pauseDuration={500}
+                  showCursor={activeLine === 0}
                   loop={false}
+                  onSentenceComplete={() => setActiveLine(1)}
                 />
               </div>
               <div className="my-4">
-                <TextType 
-                  text={["WITH CODE, CREATIVITY,"]}
-                  typingSpeed={75}
-                  initialDelay={2000}
-                  pauseDuration={1500}
-                  showCursor={false}
-                  loop={false}
-                />
+                {activeLine >= 1 && (
+                  <TextType 
+                    text={["WITH CODE, CREATIVITY,"]}
+                    typingSpeed={50}
+                    pauseDuration={500}
+                    showCursor={activeLine === 1}
+                    loop={false}
+                    onSentenceComplete={() => setActiveLine(2)}
+                  />
+                )}
               </div>
               <div>
-                <TextType 
-                  text={["AND PURPOSE."]}
-                  typingSpeed={75}
-                  initialDelay={4000}
-                  pauseDuration={1500}
-                  showCursor={true}
-                  cursorCharacter="|"
-                  loop={false}
-                />
+                {activeLine >= 2 && (
+                  <TextType 
+                    text={["AND PURPOSE."]}
+                    typingSpeed={50}
+                    pauseDuration={1500}
+                    showCursor={activeLine === 2}
+                    cursorCharacter="|"
+                    loop={false}
+                  />
+                )}
               </div>
             </h1>
 
@@ -80,7 +87,7 @@ const HeroSection = () => {
               {/* Image */}
               <div className="w-full lg:w-96 h-64 flex-shrink-0">
                 <img 
-                  src="./image1.jpg" 
+                  src="/image1.png" 
                   alt="Team collaboration - people working together on creative projects"
                   className="rounded-lg w-full h-full object-cover shadow-lg"
                   loading="lazy"

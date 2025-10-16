@@ -125,22 +125,26 @@ const TextType = ({
             setDisplayedText(prev => prev.slice(0, -1));
           }, deletingSpeed);
         }
-      } else {
-        if (currentCharIndex < processedText.length) {
-          timeout = setTimeout(
-            () => {
-              setDisplayedText(prev => prev + processedText[currentCharIndex]);
-              setCurrentCharIndex(prev => prev + 1);
-            },
-            variableSpeed ? getRandomSpeed() : typingSpeed
-          );
-        } else if (textArray.length > 1) {
-          timeout = setTimeout(() => {
-            setIsDeleting(true);
-          }, pauseDuration);
-        }
-      }
-    };
+              } else {
+                if (currentCharIndex < processedText.length) {
+                  timeout = setTimeout(
+                    () => {
+                      setDisplayedText(prev => prev + processedText[currentCharIndex]);
+                      setCurrentCharIndex(prev => prev + 1);
+                    },
+                    variableSpeed ? getRandomSpeed() : typingSpeed
+                  );
+                } else {
+                  if (onSentenceComplete) {
+                    onSentenceComplete(textArray[currentTextIndex], currentTextIndex);
+                  }
+                  if (textArray.length > 1 && loop) {
+                    timeout = setTimeout(() => {
+                      setIsDeleting(true);
+                    }, pauseDuration);
+                  }
+                }
+              }    };
 
     if (currentCharIndex === 0 && !isDeleting && displayedText === '') {
       timeout = setTimeout(executeTypingAnimation, initialDelay);
