@@ -80,9 +80,10 @@ const HeroSection = () => {
               {/* Image */}
               <div className="w-full lg:w-96 h-64 flex-shrink-0">
                 <img 
-                  src="/image1.jpg" 
+                  src="./image1.jpg" 
                   alt="Team collaboration - people working together on creative projects"
                   className="rounded-lg w-full h-full object-cover shadow-lg"
+                  loading="lazy"
                 />
               </div>
 
