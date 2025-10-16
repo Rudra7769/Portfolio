@@ -1,7 +1,7 @@
 import { motion, useInView, useMotionValue, useTransform } from "framer-motion";
 import { Briefcase, GraduationCap, Calendar, Sparkles, Zap } from "lucide-react";
 import { useRef, useState, useEffect } from "react";
-import FaultyTerminal from "./FaultyTerminal";
+import RippleGrid from "./RippleGrid";
 
 interface TimelineItem {
   id: number;
@@ -68,18 +68,21 @@ const TimelineCard = ({ item, index, onItemInView }: TimelineCardProps) => {
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, scale: 0.3, rotateY: isLeft ? -90 : 90 }}
-      animate={isInView ? { opacity: 1, scale: 1, rotateY: 0 } : { opacity: 0, scale: 0.3, rotateY: isLeft ? -90 : 90 }}
-      transition={{ 
-        duration: 0.8, 
-        delay: index * 0.15,
-        type: "spring",
-        stiffness: 100
-      }}
+      initial={{ opacity: 0, y: 50, scale: 0.9 }}
+      animate={isInView ? { 
+        opacity: 1, 
+        y: 0, 
+        scale: 1,
+        transition: { 
+          duration: 0.6, 
+          delay: index * 0.1,
+          ease: [0.22, 1, 0.36, 1] // Custom ease curve for smoother motion
+        }
+      } : {}}
       className={`relative flex items-center gap-8 ${
         isLeft ? "flex-row" : "flex-row-reverse"
-      } mb-20 lg:mb-32`}
-      style={{ perspective: "1000px" }}
+      } mb-20 lg:mb-24`}
+      style={{ perspective: "1200px" }}
     >
       {/* Card */}
       <div className="w-full lg:w-5/12">
@@ -87,24 +90,24 @@ const TimelineCard = ({ item, index, onItemInView }: TimelineCardProps) => {
           onHoverStart={() => setIsHovered(true)}
           onHoverEnd={() => setIsHovered(false)}
           whileHover={{ 
-            scale: 1.05,
-            rotateX: 5,
-            rotateY: isLeft ? -5 : 5,
-            z: 50
+            scale: 1.03,
+            y: -5,
+            boxShadow: "0 25px 50px rgba(0, 0, 0, 0.3)",
+            transition: { duration: 0.2, ease: "easeOut" }
           }}
           animate={isHovered ? {
-            y: [0, -10, 0],
-          } : {}}
-          transition={{
-            y: {
-              duration: 2,
-              repeat: Infinity,
-              ease: "easeInOut"
+            y: [0, -5, 0],
+            transition: {
+              y: {
+                duration: 2,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }
             }
-          }}
-          className="group relative rounded-2xl bg-gradient-to-br from-card/60 via-card/40 to-transparent backdrop-blur-2xl border-2 border-glass-border p-8 overflow-hidden"
+          } : {}}
+          className="group relative rounded-2xl bg-gradient-to-br from-card/80 via-card/60 to-card/40 backdrop-blur-xl border border-glass-border p-8 overflow-hidden shadow-lg"
           style={{
-            boxShadow: "0 20px 60px rgba(0, 0, 0, 0.5)",
+            boxShadow: "0 15px 30px rgba(0, 0, 0, 0.3)",
             transformStyle: "preserve-3d",
           }}
         >
@@ -347,7 +350,16 @@ const ExperienceSection = () => {
   return (
     <section id="experience" className="relative min-h-screen bg-background py-20 px-4 overflow-hidden">
       <div style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0, zIndex: 0 }}>
-        <FaultyTerminal brightness={0.2} curvature={0} />
+        <RippleGrid 
+          enableRainbow={false} 
+          gridColor="#61FF66" 
+          rippleIntensity={0.05} 
+          gridSize={10} 
+          gridThickness={15} 
+          mouseInteraction={true} 
+          mouseInteractionRadius={1.2} 
+          opacity={0.4} 
+        />
       </div>
       <div className="relative z-10 max-w-6xl mx-auto">
         {/* Section Header - Simple style matching Skills section */}

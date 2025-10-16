@@ -76,9 +76,9 @@ const HeroSection = () => {
             </h1>
 
             {/* Image + sentence+button side by side */}
-            <div className="flex items-start gap-80">
+            <div className="flex flex-col lg:flex-row items-start gap-6 lg:gap-80">
               {/* Image */}
-              <div className="w-96 h-64 flex-shrink-0">
+              <div className="w-full lg:w-96 h-64 flex-shrink-0">
                 <img 
                   src="image1.jpg" 
                   alt="Team collaboration - people working together on creative projects"
@@ -87,7 +87,7 @@ const HeroSection = () => {
               </div>
 
              {/* Sentence + button */}
-                <div className="pt-24">
+                <div className="pt-6 lg:pt-24">
                   <div className="flex items-start gap-4 mb-6">
                     <div className="text-white text-xl font-light mt-1">+</div>
                     <p className="text-gray-300 text-sm leading-relaxed whitespace-pre max-w-xl">
@@ -96,7 +96,7 @@ const HeroSection = () => {
                     </p>
                   </div>
 
-                  <div className="flex items-start gap-80">
+                  <div className="flex items-start lg:gap-80">
                     <div className="mt-6">
                       <button
                         type="button"

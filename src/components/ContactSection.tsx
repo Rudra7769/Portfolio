@@ -21,13 +21,13 @@ const MovingBanner = () => {
   const extendedSkills = [...skills, ...skills];
 
   return (
-    <div className="w-full overflow-hidden bg-primary py-6 relative mt-20">
+    <div className="w-full overflow-hidden bg-primary py-4 sm:py-6 relative mt-12 sm:mt-20">
       {/* White line above banner */}
       <div className="absolute top-0 left-0 w-full h-px bg-white/20"></div>
       
       {/* Moving white line that covers text */}
       <motion.div
-        className="absolute top-1/2 left-0 w-full h-8 bg-white/30 transform -translate-y-1/2"
+        className="absolute top-1/2 left-0 w-full h-6 sm:h-8 bg-white/30 transform -translate-y-1/2"
         animate={{
           x: ["0%", "-50%"],
         }}

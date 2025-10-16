@@ -29,16 +29,16 @@ const SkillsSection = () => {
           </span>
         </div>
 
-        <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6">
           Technical Expertise
         </h2>
 
-        <p className="text-gray-400 max-w-2xl mx-auto mb-12">
+        <p className="text-gray-400 max-w-2xl mx-auto mb-12 px-4">
           A builder at heart, I thrive on transforming concepts into fast, functional, and visually striking web applications that push boundaries.
         </p>
         
         {/* Skills Globe Visualization */}
-        <div className="mt-16">
+        <div className="mt-8 md:mt-16">
           <SkillsGlobe />
         </div>
       </div>

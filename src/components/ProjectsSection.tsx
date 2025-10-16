@@ -69,7 +69,7 @@ const ProjectCard = ({ project, isActive }: { project: Project; isActive: boolea
       {/* Main Card */}
       <div className="relative bg-card/80 backdrop-blur-sm border border-border/50 rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500">
         {/* Project Image */}
-        <div className="relative h-80 overflow-hidden">
+        <div className="relative h-60 sm:h-80 overflow-hidden">
           <motion.img
             src={project.image}
             alt={project.title}
@@ -82,7 +82,7 @@ const ProjectCard = ({ project, isActive }: { project: Project; isActive: boolea
           
           {/* Project Title Overlay (default state) */}
           <div className="absolute bottom-6 left-6 right-6 transition-opacity duration-300 group-hover:opacity-0">
-            <h3 className="text-3xl font-bold text-white mb-2">
+            <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-2">
               {project.title}
             </h3>
             <p className="text-white/90 text-sm">
@@ -91,7 +91,7 @@ const ProjectCard = ({ project, isActive }: { project: Project; isActive: boolea
           </div>
 
           {/* Hover Description Overlay */}
-          <div className="pointer-events-none absolute left-4 right-4 bottom-6 rounded-2xl bg-background/30 backdrop-blur-xl border border-border/30 p-5 md:p-7 opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
+          <div className="pointer-events-none absolute left-4 right-4 bottom-6 rounded-2xl bg-background/30 backdrop-blur-xl border border-border/30 p-4 sm:p-5 md:p-7 opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
             <h3 className="text-3xl md:text-4xl font-extrabold text-foreground mb-3">
               {project.title}
             </h3>
