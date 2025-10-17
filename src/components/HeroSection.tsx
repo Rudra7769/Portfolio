@@ -29,10 +29,8 @@ const HeroSection = () => {
           resolution={0.5}
           isBounce={false}
           autoDemo={true}                // enable automatic wave animation
-          autoSpeed={0.5}                // how fast the auto animation moves
-          autoIntensity={1.6}            // strength of the auto waves
-          takeoverDuration={0.3}
-          autoResumeDelay={1000}         // delay before auto demo resumes after interaction
+          autoSpeed={1.0}                // how fast the auto animation moves
+          autoIntensity={2.0}            // strength of the auto waves
           autoRampDuration={0.6}
           BFECC={true}
           dt={0.016}
