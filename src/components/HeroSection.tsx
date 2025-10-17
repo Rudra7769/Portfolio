@@ -46,7 +46,7 @@ const HeroSection = () => {
           {/* Left side - Hero text + image + description+button beside image */}
           <div className="flex-1 max-w-5xl">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-light leading-tight text-white mb-12 uppercase">
-              <div>
+              <div className="h-20">
                 <TextType 
                   text={["CRAFTING DIGITAL PRODUCTS"]}
                   typingSpeed={50}
@@ -56,7 +56,7 @@ const HeroSection = () => {
                   onSentenceComplete={() => setActiveLine(1)}
                 />
               </div>
-              <div className="my-4">
+              <div className="my-4 h-20">
                 {activeLine >= 1 && (
                   <TextType 
                     text={["WITH CODE, CREATIVITY,"]}
@@ -68,7 +68,7 @@ const HeroSection = () => {
                   />
                 )}
               </div>
-              <div>
+              <div className="h-20">
                 {activeLine >= 2 && (
                   <TextType 
                     text={["AND PURPOSE."]}
